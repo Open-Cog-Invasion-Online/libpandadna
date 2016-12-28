@@ -41,7 +41,7 @@ class EXPCL_DNA DNACornice : public DNAGroup
         virtual void make_from_dgi(DatagramIterator& dgi, DNAStorage* store);
         virtual void traverse(NodePath& np, DNAStorage* store);
         
-    PROPERTY(LVecBase4f, color);
+    PROPERTY_COLOR(color);
     PROPERTY_STRING(code);
         
     TYPE_HANDLE(DNACornice, DNAGroup);

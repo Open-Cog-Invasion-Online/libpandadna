@@ -4,7 +4,7 @@ import sys
 import os
 
 srcdir = os.path.abspath(os.path.dirname(__file__))
-pandadir = os.path.abspath(sys.argv[1])
+pandadir = sys.argv[1]
 
 def run_command(cmd):
     p = subprocess.Popen(cmd, stdout=sys.stdout, stderr=sys.stderr, shell=True)
@@ -18,6 +18,7 @@ def run_command(cmd):
 def interrogate(module):
     print 'Interrogating', module
     cmd = os.path.join(pandadir, 'bin', 'interrogate')
+    print os.path.exists(cmd)
     cmd += ' -D__inline -DCPPPARSER -DP3_INTERROGATE=1 -D__cplusplus -fnames -string -refcount -assert'
     cmd += ' -S %(pandadir)s/include/parser-inc -S %(pandadir)s/include -I %(pandadir)s/include -I%(srcdir)s/base -I%(srcdir)s/suit -I%(srcdir)s/components'
     cmd += ' -srcdir %(srcdir)s/%(module)s -oc %(srcdir)s/%(module)s_igate.cxx -od %(srcdir)s/%(module)s.in -python-native -DCPPPARSER -D__STDC__=1'

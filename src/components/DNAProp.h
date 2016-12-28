@@ -47,7 +47,7 @@ class EXPCL_DNA DNAProp : public DNANode
     protected:
         virtual void raise_code_not_found();
     
-    PROPERTY(LVecBase4f, color);
+    PROPERTY_COLOR(color);
     PROPERTY_STRING(code);
         
     TYPE_HANDLE(DNAProp, DNANode);

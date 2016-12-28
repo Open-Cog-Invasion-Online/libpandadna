@@ -78,9 +78,9 @@ class EXPCL_DNA DNAStreet : public DNANode
     PROPERTY_STRING(street_texture);
     PROPERTY_STRING(sidewalk_texture);
     PROPERTY_STRING(curb_texture);
-    PROPERTY(LVecBase4f, street_color);
-    PROPERTY(LVecBase4f, sidewalk_color);
-    PROPERTY(LVecBase4f, curb_color);
+    PROPERTY_COLOR(street_color);
+    PROPERTY_COLOR(sidewalk_color);
+    PROPERTY_COLOR(curb_color);
     
     TYPE_HANDLE(DNAStreet, DNANode);
 };

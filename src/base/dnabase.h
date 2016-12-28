@@ -61,6 +61,13 @@ inline LVecBase4f dgi_extract_color(DatagramIterator& dgi)
                                 INLINE std::string get_##NAME () { return m_##NAME ; }; \
                             protected: \
                                 std::string m_##NAME ;
+
+// PROPERTY_COLOR is like above, but it uses const LVecBase4f& for setter
+#define PROPERTY_COLOR(NAME) PUBLISHED: \
+                                INLINE void set_##NAME (const LVecBase4f& value) { m_##NAME = value; }; \
+                                INLINE LVecBase4f get_##NAME () { return m_##NAME ; }; \
+                            protected: \
+                                LVecBase4f m_##NAME ;
                                 
 // TYPE_HANDLE MACRO
 // This is a helper for classes

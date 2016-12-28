@@ -48,7 +48,7 @@ class EXPCL_DNA DNAWall : public DNANode
         virtual void make_from_dgi(DatagramIterator& dgi, DNAStorage* store);
         virtual void traverse(NodePath& np, DNAStorage* store);
         
-    PROPERTY(LVecBase4f, color);
+    PROPERTY_COLOR(color);
     PROPERTY(float, height);
     PROPERTY_STRING(code);
         

@@ -72,7 +72,7 @@ class EXPCL_DNA DNASignBaseline : public DNANode
     PROPERTY_STRING(text);
     PROPERTY_STRING(code);
     PROPERTY_STRING(flags);
-    PROPERTY(LVecBase4, color);
+    PROPERTY_COLOR(color);
     PROPERTY(float, indent);
     PROPERTY(float, kern);
     PROPERTY(float, wiggle);

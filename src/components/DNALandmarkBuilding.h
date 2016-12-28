@@ -47,7 +47,7 @@ class EXPCL_DNA DNALandmarkBuilding : public DNANode
     protected:
         void setup_suit_building_origin(NodePath& a, NodePath& b);
         
-    PROPERTY(LVecBase4f, wall_color);
+    PROPERTY_COLOR(wall_color);
     PROPERTY_STRING(code);
     
     TYPE_HANDLE(DNALandmarkBuilding, DNANode);
