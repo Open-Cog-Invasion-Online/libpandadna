@@ -43,5 +43,6 @@ void DNASign::traverse(NodePath& np, DNAStorage* store)
     _np.set_color(m_color);
     _np.wrt_reparent_to(origin, 0);
     traverse_children(_np, store);
+    _np.clear_model_nodes();
     _np.flatten_strong();
 }

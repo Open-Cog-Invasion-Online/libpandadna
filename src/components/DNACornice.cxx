@@ -47,5 +47,6 @@ void DNACornice::traverse(NodePath& np, DNAStorage* store)
     
     internal_node.set_z(node.get_scale().get_z());
     internal_node.set_color(m_color);
+    internal_node.clear_model_nodes();
     internal_node.flatten_strong();
 }

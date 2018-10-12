@@ -44,6 +44,9 @@ void DNAProp::traverse(NodePath& np, DNAStorage* store)
     _np.set_color_scale(m_color);
     
     traverse_children(_np, store);
+
+    //_np.clear_model_nodes();
+    //_np.flatten_strong();
 }
 
 void DNAProp::raise_code_not_found()

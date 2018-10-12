@@ -119,5 +119,6 @@ void DNASignBaseline::traverse(NodePath& np, DNAStorage* store)
     _np.set_depth_offset(50);
 
     traverse_children(_np, store);
+    _np.clear_model_nodes();
     _np.flatten_strong();
 }

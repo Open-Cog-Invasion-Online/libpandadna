@@ -39,4 +39,7 @@ void DNASignGraphic::traverse(NodePath& np, DNAStorage* store)
     _np.set_y(_np, -.025);
     
     traverse_children(_np, store);
+
+    _np.clear_model_nodes();
+    _np.flatten_strong();
 }

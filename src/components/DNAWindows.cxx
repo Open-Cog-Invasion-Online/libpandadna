@@ -104,5 +104,7 @@ void DNAWindows::make_windows(float x, float y, NodePath& parent_node,
     window.set_scale(NodePath(), scale);
     window.set_pos(x, 0, y);
     window.set_depth_offset(1, 1);
+    window.clear_model_nodes();
+    window.flatten_strong();
 }
 
