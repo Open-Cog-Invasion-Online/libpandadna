@@ -116,7 +116,8 @@ void DNASignBaseline::traverse(NodePath& np, DNAStorage* store)
 
     NodePath _np = np.attach_new_node(root.node());
     _np.set_pos_hpr(m_pos, m_hpr);
-    _np.set_depth_offset(50);
+    // SignGraphic has offset 50, render text in front of the sign
+    _np.set_depth_offset(51);
 
     traverse_children(_np, store);
     _np.clear_model_nodes();

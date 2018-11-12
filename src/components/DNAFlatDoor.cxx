@@ -31,5 +31,5 @@ void DNAFlatDoor::traverse(NodePath& np, DNAStorage* store)
     _np.set_x(.5);
     _np.set_hpr(_np, 0);
     _np.set_color(m_color);
-    _np.node()->set_effect(DecalEffect::make());
+    _np.set_depth_offset( 1, 1 );
 }

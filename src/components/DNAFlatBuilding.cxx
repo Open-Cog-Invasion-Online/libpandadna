@@ -1,7 +1,7 @@
 #include "DNAFlatBuilding.h"
 #include "DNAWall.h"
 
-#include <decalEffect.h>
+#include <depthOffsetAttrib.h>
 #include <nodePathCollection.h>
 
 TypeHandle DNAFlatBuilding::_type_handle;
@@ -51,9 +51,9 @@ void DNAFlatBuilding::setup_flat(NodePath& np, DNAStorage* store, const char chr
         NodePath wall_np, door_np;
         wall_np = node.find("wall_*");
         door_np = store->find_node("suit_door").copy_to(wall_np);
+        door_np.set_depth_offset( 1, 1 );
         door_np.set_pos_hpr_scale(.5, 0, 0, 0, 0, 0, 1.0 / m_width, 0,
                                   1.0 / DNAFlatBuilding::current_wall_height);                           
-        wall_np.set_effect(DecalEffect::make());
     }
     
     node.clear_model_nodes();
@@ -139,9 +139,13 @@ void DNAFlatBuilding::traverse(NodePath& np, DNAStorage* store)
         wall_decal = node.attach_new_node("wall_decal");
 
         wall_collection.reparent_to(wall_holder);
+        
         door_collection.reparent_to(wall_decal);
+        door_collection.set_attrib( DepthOffsetAttrib::make( 1 ), 1 );
         cornice_collection.reparent_to(wall_decal);
+        cornice_collection.set_attrib( DepthOffsetAttrib::make( 1 ), 1 );
         window_collection.reparent_to(wall_decal);
+        window_collection.set_attrib( DepthOffsetAttrib::make( 1 ), 1 );
 
         for (size_t i = 0; i < wall_holder.get_num_children(); i++)
         {
@@ -156,7 +160,6 @@ void DNAFlatBuilding::traverse(NodePath& np, DNAStorage* store)
         NodePath holder_child_0 = wall_holder.get_child(0);
         wall_decal.get_children().reparent_to(holder_child_0);
         holder_child_0.reparent_to(internal_node);
-        holder_child_0.set_effect(DecalEffect::make());
 
         wall_holder.remove_node();
         wall_decal.remove_node();

@@ -36,7 +36,7 @@ void DNASign::traverse(NodePath& np, DNAStorage* store)
     else
         _np = decal_node.attach_new_node(new ModelNode("sign"));
         
-    _np.set_depth_offset(50);
+    _np.set_depth_offset(50, 1);
     
     origin = np.find("**/*sign_origin");
     _np.set_pos_hpr_scale(origin, m_pos, m_hpr, m_scale);
