@@ -78,8 +78,8 @@ class DNAStorage:
                 packer.pack('code', code, STRING)
 
         # Materials...
-        packer.pack('material count', len(self.textures), UINT16)
-        for code, filename in self.textures.items():
+        packer.pack('material count', len(self.materials), UINT16)
+        for code, filename in self.materials.items():
             packer.pack('code', code, STRING)
             packer.pack('filename', filename, STRING)
 

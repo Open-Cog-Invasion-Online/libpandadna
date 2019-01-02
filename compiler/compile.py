@@ -4,6 +4,8 @@ from dna.base import DNAStorage
 from dna.components import DNARoot
 from dna.parser.tokens import *
 
+from panda3d.core import Filename
+
 import argparse
 import os
 import sys
@@ -67,7 +69,12 @@ def process_single_file(filename):
     rootData = loadDNAFile(dnaStore, filename)
 
     dnaStoreData = dnaStore.dump(verbose=args.verbose)
-    output = os.path.splitext(filename)[0] + '.pdna'
+    output = 'compiled/' + os.path.splitext(filename)[0] + '.pdna'
+    
+    fn = Filename.fromOsSpecific(output)
+    if not os.path.exists(fn.getDirname()):
+        os.makedirs(fn.getDirname())
+        
     print 'Writing...', output
     data = str(dnaStoreData + rootData)
     if args.compress:
@@ -103,6 +110,9 @@ for filename in args.filenames:
         filelist.append(filename)
 
     for file in filelist:
+        if not file.endswith('.dna'):
+            print file, "is not a valid DNA file"
+            continue
         process_single_file(file)
 
 print 'Done.'
