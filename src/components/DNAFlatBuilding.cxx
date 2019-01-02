@@ -50,10 +50,14 @@ void DNAFlatBuilding::setup_flat(NodePath& np, DNAStorage* store, const char chr
     {
         NodePath wall_np, door_np;
         wall_np = node.find("wall_*");
-        door_np = store->find_node("suit_door").copy_to(wall_np);
-        door_np.set_depth_offset( 1, 1 );
-        door_np.set_pos_hpr_scale(.5, 0, 0, 0, 0, 0, 1.0 / m_width, 0,
-                                  1.0 / DNAFlatBuilding::current_wall_height);                           
+        door_np = store->find_node("suit_door");
+        if (!door_np.is_empty() && !wall_np.is_empty())
+        {
+            door_np = door_np.copy_to(wall_np);
+            door_np.set_depth_offset(1, 1);
+            door_np.set_pos_hpr_scale(.5, 0, 0, 0, 0, 0, 1.0 / m_width, 0,
+                                      1.0 / DNAFlatBuilding::current_wall_height);
+        }
     }
     
     node.clear_model_nodes();

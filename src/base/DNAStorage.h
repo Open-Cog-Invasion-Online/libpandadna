@@ -11,7 +11,7 @@
 #include <texture.h>
 #include <nodePath.h>
 
-class BSPMaterial;
+#include "bsp_material.h"
 
 #ifndef CPPPARSER
 typedef std::vector<std::string> string_vec_t;

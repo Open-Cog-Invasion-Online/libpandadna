@@ -5,8 +5,6 @@
 #include <algorithm>
 #include <cctype>
 
-#include <bsp_material.h>
-
 DNAStorage::DNAStorage()
 {
 }
