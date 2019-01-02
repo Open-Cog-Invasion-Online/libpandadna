@@ -36,7 +36,7 @@ object : suitpoint
        | group
        | model
        | font
-       | store_texture'''
+       | store_material'''
 
 
 def p_number(p):
@@ -645,14 +645,14 @@ def p_street_sub(p):
     p[0] = p[1]
 p_street_sub.__doc__ = '''\
 street_sub : code
-           | texture
+           | material
            | color'''
 
 
-def p_texture(p):
-    p.parser.parentGroup.setTexture(p[3])
-p_texture.__doc__ = '''\
-texture : TEXTURE "[" string "]"'''
+def p_material(p):
+    p.parser.parentGroup.setMaterial(p[3])
+p_material.__doc__ = '''\
+material : MATERIAL "[" string "]"'''
 
 
 def p_title(p):
@@ -999,17 +999,17 @@ node : STORE_NODE "[" string string "]"
      | STORE_NODE "[" string string string "]"'''
 
 
-def p_store_texture(p):
+def p_store_material(p):
     argCount = len(p)
     if argCount == 6:
         code, filename = p[3], p[4]
     else:
         root, code, filename = p[3], p[4], p[5]
         p.parser.dnaStore.storeCatalogCode(root, code)
-    p.parser.dnaStore.storeTexture(code, filename)
-p_store_texture.__doc__ = '''\
-store_texture : STORE_TEXTURE "[" string string "]"
-              | STORE_TEXTURE "[" string string string "]"'''
+    p.parser.dnaStore.storeMaterial(code, filename)
+p_store_material.__doc__ = '''\
+store_material : STORE_MATERIAL "[" string string "]"
+              | STORE_MATERIAL "[" string string string "]"'''
 
 
 def p_font(p):

@@ -8,26 +8,26 @@ class DNAStreet(DNANode):
     def __init__(self, name):
         DNANode.__init__(self, name)
         self.code = ''
-        self.streetTexture = ''
-        self.sideWalkTexture = ''
-        self.curbTexture = ''
+        self.streetMaterial = ''
+        self.sideWalkMaterial = ''
+        self.curbMaterial = ''
         self.streetColor = (1, 1, 1, 1)
         self.sideWalkColor = (1, 1, 1, 1)
         self.curbColor = (1, 1, 1, 1)
-        self._setTextureCount = 0
+        self._setMaterialCount = 0
         self._setColorCount = 0
 
     def setCode(self, code):
         self.code = code
 
-    def setTexture(self, texture):
-        if self._setTextureCount == 0:
-            self.streetTexture = texture
-        elif self._setTextureCount == 1:
-            self.sideWalkTexture = texture
-        elif self._setTextureCount == 2:
-            self.curbTexture = texture
-        self._setTextureCount += 1
+    def setMaterial(self, material):
+        if self._setMaterialCount == 0:
+            self.streetMaterial = material
+        elif self._setMaterialCount == 1:
+            self.sideWalkMaterial = material
+        elif self._setMaterialCount == 2:
+            self.curbMaterial = material
+        self._setMaterialCount += 1
 
     def setColor(self, color):
         if self._setColorCount == 0:
@@ -42,9 +42,9 @@ class DNAStreet(DNANode):
         packer = DNANode.traverse(self, recursive=False, verbose=verbose)
         packer.name = 'DNAStreet'  # Override the name for debugging.
         packer.pack('code', self.code, STRING)
-        packer.pack('street texture', self.streetTexture, STRING)
-        packer.pack('side walk texture', self.sideWalkTexture, STRING)
-        packer.pack('curb texture', self.curbTexture, STRING)
+        packer.pack('street material', self.streetMaterial, STRING)
+        packer.pack('side walk material', self.sideWalkMaterial, STRING)
+        packer.pack('curb material', self.curbMaterial, STRING)
         packer.packColor('street color', *self.streetColor)
         packer.packColor('side walk color', *self.sideWalkColor)
         packer.packColor('curb color', *self.curbColor)

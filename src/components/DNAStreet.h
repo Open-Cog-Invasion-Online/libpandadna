@@ -5,6 +5,8 @@
 
 #define DUMP_COLOR(X) INDENTED_OUT << "color [ " << X.get_x() << " " << X.get_y() << " " << X.get_z() << " " << X.get_w() << " ]" << std::endl;
 
+class BSPMaterial;
+
 class EXPCL_DNA DNAStreet : public DNANode
 {
     PUBLISHED:
@@ -17,9 +19,9 @@ class EXPCL_DNA DNAStreet : public DNANode
             
             dg.add_string(m_code);
             
-            dg.add_string(m_street_texture);
-            dg.add_string(m_sidewalk_texture);
-            dg.add_string(m_curb_texture);
+            dg.add_string(m_street_material);
+            dg.add_string(m_sidewalk_material);
+            dg.add_string(m_curb_material);
             
             pack_color(dg, m_street_color);
             pack_color(dg, m_sidewalk_color);
@@ -34,15 +36,15 @@ class EXPCL_DNA DNAStreet : public DNANode
             if (m_code.size())
                 INDENTED_OUT << "code [ \"" << m_code << "\" ]" << std::endl;
             
-            if (m_street_texture.size())
+            if (m_street_material.size())
             {
-                INDENTED_OUT << "texture [ \"" << m_street_texture << "\" ]" << std::endl;
-                if (m_sidewalk_texture.size())
+                INDENTED_OUT << "material [ \"" << m_street_material << "\" ]" << std::endl;
+                if (m_sidewalk_material.size())
                 {
-                    INDENTED_OUT << "texture [ \"" << m_sidewalk_texture << "\" ]" << std::endl;
-                    if (m_curb_texture.size())
+                    INDENTED_OUT << "material [ \"" << m_sidewalk_material << "\" ]" << std::endl;
+                    if (m_curb_material.size())
                     {
-                        INDENTED_OUT << "texture [ \"" << m_curb_texture << "\" ]" << std::endl;
+                        INDENTED_OUT << "material [ \"" << m_curb_material << "\" ]" << std::endl;
                     }
                 }
             }
@@ -72,12 +74,12 @@ class EXPCL_DNA DNAStreet : public DNANode
         virtual void traverse(NodePath& np, DNAStorage* store);
         
     protected:
-        PT(Texture) get_texture(const std::string& texture, DNAStorage* store);
+        const BSPMaterial *get_material(const std::string& material, DNAStorage* store);
         
     PROPERTY_STRING(code);
-    PROPERTY_STRING(street_texture);
-    PROPERTY_STRING(sidewalk_texture);
-    PROPERTY_STRING(curb_texture);
+    PROPERTY_STRING(street_material);
+    PROPERTY_STRING(sidewalk_material);
+    PROPERTY_STRING(curb_material);
     PROPERTY_COLOR(street_color);
     PROPERTY_COLOR(sidewalk_color);
     PROPERTY_COLOR(curb_color);

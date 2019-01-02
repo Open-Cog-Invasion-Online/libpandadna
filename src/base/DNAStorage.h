@@ -11,6 +11,8 @@
 #include <texture.h>
 #include <nodePath.h>
 
+class BSPMaterial;
+
 #ifndef CPPPARSER
 typedef std::vector<std::string> string_vec_t;
 typedef std::map<std::string, string_vec_t> nodes_t;
@@ -23,7 +25,7 @@ typedef std::map<block_number_t, std::string> block_string_map_t;
 typedef std::map<block_number_t, NodePath> door_vec_t;
 typedef std::vector<block_number_t> block_number_vec_t;
 typedef std::map<block_number_t, zone_id_t> block_zone_vec_t;
-typedef std::map<std::string, PT(Texture)> texture_map_t;
+typedef std::map<std::string, const BSPMaterial *> material_map_t;
 typedef std::map<std::string, string_vec_t> catalog_codes_map_t;
 #endif
 
@@ -54,9 +56,9 @@ class EXPCL_DNA DNAStorage
         void reset_DNA_vis_groups();
         void reset_DNA_vis_groups_AI();
     
-        void store_texture(const std::string& name, PT(Texture) texture);
-        PT(Texture) find_texture(const std::string& name);
-        void reset_textures();
+        void store_material(const std::string& name, const BSPMaterial *mat);
+        const BSPMaterial *find_material(const std::string& name);
+        void reset_materials();
 
         void store_font(const std::string& code, PT(TextFont) font, const std::string& filename="");
         PT(TextFont) find_font(const std::string& code);
@@ -152,7 +154,7 @@ class EXPCL_DNA DNAStorage
         door_vec_t m_block_doors;
         block_number_vec_t m_block_numbers;
         block_zone_vec_t m_block_zones;
-        texture_map_t m_textures;
+        material_map_t m_materials;
         catalog_codes_map_t m_catalog_codes;
 #endif
 };

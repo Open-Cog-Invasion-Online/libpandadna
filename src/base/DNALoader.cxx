@@ -24,6 +24,8 @@
 #include <compress_string.h>
 #include <sstream>
 
+#include <bsp_material.h>
+
 DNALoader::DNALoader(): m_cur_comp(NULL), m_cur_store(NULL)
 {
 }
@@ -73,14 +75,14 @@ void DNALoader::handle_storage_data(DatagramIterator& dgi)
             m_cur_store->store_catalog_code(root, dgi.get_string());
     }
     
-    // Textures
-    unsigned short num_textures = dgi.get_uint16();
-    for (i = 0; i < num_textures; i++)
+    // Materials
+    unsigned short num_materials = dgi.get_uint16();
+    for (i = 0; i < num_materials; i++)
     {
         std::string code, filename;
         code = dgi.get_string();
         filename = dgi.get_string();
-        m_cur_store->store_texture(code, TexturePool::load_texture(filename));
+        m_cur_store->store_material(code, BSPMaterial::get_from_file(filename));
     }
     
     // Fonts

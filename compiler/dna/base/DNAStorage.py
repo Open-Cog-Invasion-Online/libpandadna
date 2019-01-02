@@ -5,7 +5,7 @@ from dna.components.DNASuitEdge import DNASuitEdge
 class DNAStorage:
     def __init__(self):
         self.catalogCodes = {}        # {root: [code]}
-        self.textures = {}            # {code: filename}
+        self.materials = {}            # {code: filename}
         self.fonts = {}               # {code: filename}
         self.nodes = {}               # {code: (filename, search)}
         self.hoodNodes = {}           # {code: (filename, search)}
@@ -22,8 +22,8 @@ class DNAStorage:
     def storeCatalogCode(self, root, code):
         self.catalogCodes.setdefault(root, []).append(code)
 
-    def storeTexture(self, code, filename):
-        self.textures[code] = filename
+    def storeMaterial(self, code, filename):
+        self.materials[code] = filename
 
     def storeFont(self, font, code):
         self.fonts[code] = font
@@ -77,8 +77,8 @@ class DNAStorage:
             for code in codes:
                 packer.pack('code', code, STRING)
 
-        # Textures...
-        packer.pack('texture count', len(self.textures), UINT16)
+        # Materials...
+        packer.pack('material count', len(self.textures), UINT16)
         for code, filename in self.textures.items():
             packer.pack('code', code, STRING)
             packer.pack('filename', filename, STRING)

@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <cctype>
 
+#include <bsp_material.h>
+
 DNAStorage::DNAStorage()
 {
 }
@@ -58,14 +60,14 @@ void DNAStorage::reset_DNA_vis_groups_AI()
     reset_DNA_vis_groups();
 }
 
-void DNAStorage::store_texture(const std::string& name, PT(Texture) texture)
+void DNAStorage::store_material(const std::string& name, const BSPMaterial *mat)
 {
-    m_textures[name] = texture;
+    m_materials[name] = mat;
 }
 
-PT(Texture) DNAStorage::find_texture(const std::string& name)
+const BSPMaterial *DNAStorage::find_material(const std::string& name)
 {
-    for (texture_map_t::iterator it = m_textures.begin(); it != m_textures.end(); ++it)
+    for (material_map_t::iterator it = m_materials.begin(); it != m_materials.end(); ++it)
     {
         if (it->first == name)
             return it->second;
@@ -74,9 +76,9 @@ PT(Texture) DNAStorage::find_texture(const std::string& name)
     return NULL;
 }
 
-void DNAStorage::reset_textures()
+void DNAStorage::reset_materials()
 {
-    m_textures.clear();
+    m_materials.clear();
 }
 
 void DNAStorage::store_font(const std::string& code, PT(TextFont) font, const std::string& filename)
@@ -514,12 +516,12 @@ void DNAStorage::write_pdna(Datagram& dg)
             dg.add_string(*code);
     }
     
-    // Textures
-    dg.add_uint16(m_textures.size());
-    for (texture_map_t::iterator it = m_textures.begin(); it != m_textures.end(); ++it)
+    // Materials
+    dg.add_uint16(m_materials.size());
+    for (material_map_t::iterator it = m_materials.begin(); it != m_materials.end(); ++it)
     {
         dg.add_string(it->first);
-        dg.add_string((it->second)->get_filename());
+        dg.add_string((it->second)->get_file());
     }
     
     // Fonts
@@ -627,17 +629,17 @@ void DNAStorage::write_dna(std::ostream& out)
         out << " ]" << std::endl;
     }
     
-    // Textures
-    for (texture_map_t::iterator it = m_textures.begin(); it != m_textures.end(); ++it)
+    // Materials
+    for (material_map_t::iterator it = m_materials.begin(); it != m_materials.end(); ++it)
     {
-        out << "store_texture [ \"" << _reverse_catalog_lookup(it->first) << "\" \""
-            << it->first << "\" \"" << (it->second)->get_filename() << "\" ]" << std::endl;
+        out << "store_material [ \"" << _reverse_catalog_lookup(it->first) << "\" \""
+            << it->first << "\" \"" << (it->second)->get_file() << "\" ]" << std::endl;
     }
     
     // Fonts
     for (font_map_t::iterator it = m_fonts.begin(); it != m_fonts.end(); ++it)
     {
-        out << "store_texture [ \"" << _reverse_catalog_lookup(it->first) << "\" \""
+        out << "store_font [ \"" << _reverse_catalog_lookup(it->first) << "\" \""
             << it->first << "\" \"" << m_font_filenames[it->first] << "\" ]" << std::endl;
     }
     

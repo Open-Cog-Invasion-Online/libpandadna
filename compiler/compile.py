@@ -81,7 +81,7 @@ def process_single_file(filename):
         for root, codes in dnaStore.catalogCodes.items():
             catalogCodeCount += len(codes)
         print 'Catalog code count:', catalogCodeCount
-        print 'Texture count:', len(dnaStore.textures)
+        print 'Material count:', len(dnaStore.materials)
         print 'Font count:', len(dnaStore.fonts)
         print 'Node count:', len(dnaStore.nodes)
         print 'Hood node count:', len(dnaStore.hoodNodes)
