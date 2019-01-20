@@ -1,25 +1,11 @@
 cmake_minimum_required(VERSION 2.8.8 FATAL_ERROR)
 project(libpandadna)
 
-find_package(PythonLibs)
-if (NOT PYTHONLIBS_FOUND)
-    message(FATAL_ERROR "Python libs not found.")
-endif()
-
-find_package(PythonInterp)
-if(NOT PYTHONINTERP_FOUND)
-    message(FATAL_ERROR "Python interpreter not found.")
-endif()
-
-if(PYTHON_VERSION_MAJOR EQUAL 2)
-    set(PYTHON2_EXECUTABLE "${PYTHON_EXECUTABLE}")
-else()
-    set(PYTHON2_EXECUTABLE python2)
-endif()
-
 ### Panda3D dir ###
-SET(PANDA_DIR "C:\\Panda3D-1.10.0" CACHE STRING "Panda3D directory.")
+SET(PANDA_DIR "D:\\OTHER\\lachb\\Documents\\cio\\cio-panda3d\\built_x64" CACHE STRING "Panda3D directory.")
+SET(PYTHON2_EXECUTABLE "${PANDA_DIR}\\python\\ppython")
 SET(BUILD_STATIC_LIB OFF CACHE BOOL "If true, will build a static lib")
+SET(PYTHON_LIBRARY "python27")
 execute_process(COMMAND ${PYTHON2_EXECUTABLE} "${CMAKE_SOURCE_DIR}/src/run_interrogate.py" "${PANDA_DIR}")
 
 ### Define core components ###
@@ -98,9 +84,9 @@ include_directories(src/base)
 include_directories(src/suit)
 include_directories(src/components)
 include_directories(${PANDA_DIR}/include)
-include_directories(${PYTHON_INCLUDE_DIR})
-include_directories(/usr/include/eigen3)
+include_directories(${PANDA_DIR}/python/include)
 link_directories(${PANDA_DIR}/lib)
+link_directories(${PANDA_DIR}/python/libs)
 
 set(LIBPFX "")
 if(WIN32)
@@ -129,6 +115,7 @@ if (NOT BUILD_STATIC_LIB)
         ${LIBPFX}p3dtool
         ${LIBPFX}p3dtoolconfig
         ${LIBPFX}p3direct
+		${LIBPFX}p3pystub
     )
 
     # Add p3interrogatedb, if it exists
