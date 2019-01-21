@@ -2,7 +2,12 @@ cmake_minimum_required(VERSION 2.8.8 FATAL_ERROR)
 project(libpandadna)
 
 ### Panda3D dir ###
-SET(PANDA_DIR "D:\\OTHER\\lachb\\Documents\\cio\\cio-panda3d\\built_x64" CACHE STRING "Panda3D directory.")
+if (DEFINED LINK_ALL_STATIC)
+    set(P3BUILT built_x64_static)
+else()
+    set(P3BUILT built_x64)
+endif ()
+SET(PANDA_DIR ..\\cio-panda3d\\${P3BUILT})
 SET(PYTHON2_EXECUTABLE "${PANDA_DIR}\\python\\ppython")
 SET(BUILD_STATIC_LIB OFF CACHE BOOL "If true, will build a static lib")
 SET(PYTHON_LIBRARY "python27")
@@ -85,8 +90,10 @@ include_directories(src/suit)
 include_directories(src/components)
 include_directories(${PANDA_DIR}/include)
 include_directories(${PANDA_DIR}/python/include)
+include_directories(../../rpbmStudios/panda_cxx_projs/libpandabsp/include)
 link_directories(${PANDA_DIR}/lib)
 link_directories(${PANDA_DIR}/python/libs)
+link_directories(../../rpbmStudios/panda_cxx_projs/libpandabsp/Release)
 
 set(LIBPFX "")
 if(WIN32)
@@ -143,18 +150,32 @@ if (NOT BUILD_STATIC_LIB)
     endif()
 
     if(WIN32)
-        add_library(libpandadna SHARED
+        if (DEFINED LINK_ALL_STATIC)
+            set(LIB_TYPE STATIC)
+            set(OUT_EXT .lib)
+            add_definitions(-DLINK_ALL_STATIC)
+        else ()
+            set(LIB_TYPE SHARED)
+            set(OUT_EXT .pyd)
+        endif ()
+        add_library(libpandadna ${LIB_TYPE}
             ${BASE_FILES}
             ${SUIT_FILES}
             ${COMPONENTS_FILES}
             ${IGATE_FILES}
         )
-        SET_TARGET_PROPERTIES(libpandadna PROPERTIES SUFFIX ".pyd")
-        target_link_libraries(libpandadna ${PANDA_LIBS} ${PYTHON_LIBRARY})
+        SET_TARGET_PROPERTIES(libpandadna PROPERTIES SUFFIX ${OUT_EXT})
+        target_link_libraries(libpandadna ${PANDA_LIBS} ${PYTHON_LIBRARY} bsp.lib)
         add_custom_command(TARGET libpandadna
                            PRE_BUILD
                            COMMAND ${PYTHON2_EXECUTABLE} "${CMAKE_SOURCE_DIR}/src/run_interrogate.py" "${PANDA_DIR}"
                            COMMENT "Interrogate")
+        if (DEFINED LINK_ALL_STATIC)
+            add_custom_command(TARGET libpandadna POST_BUILD COMMAND copy /Y Release\\libpandadna.lib ${PANDA_DIR}\\lib\\libpandadna.lib)
+        else()
+            add_custom_command(TARGET libpandadna POST_BUILD COMMAND copy /Y Release\\libpandadna.pyd ${PANDA_DIR}\\bin\\libpandadna.pyd)
+            #add_custom_command(TARGET vifparser POST_BUILD COMMAND copy /Y ${CMAKE_BUILD_TYPE}\\libvif.pdb ${PANDA_DIR}\\bin\\libvif.pdb)
+        endif()
 
     else()
         add_library(pandadna MODULE
