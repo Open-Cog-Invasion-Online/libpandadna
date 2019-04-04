@@ -35,7 +35,7 @@ void DNASignGraphic::traverse(NodePath& np, DNAStorage* store)
 
     _np.set_depth_write(true);
     _np.set_depth_test(true);
-    _np.set_depth_offset(10);
+    _np.set_depth_offset(10, 1);
     _np.set_y(_np, -.025);
     
     traverse_children(_np, store);
