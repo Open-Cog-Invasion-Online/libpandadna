@@ -161,11 +161,7 @@ void DNAFlatBuilding::traverse(NodePath& np, DNAStorage* store)
         wall_holder.flatten_strong();
         wall_decal.flatten_strong();
 
-        NodePath holder_child_0 = wall_holder.get_child(0);
-        wall_decal.get_children().reparent_to(holder_child_0);
-        holder_child_0.reparent_to(internal_node);
-
-        wall_holder.remove_node();
-        wall_decal.remove_node();
+        wall_decal.reparent_to(wall_holder);
+        wall_holder.reparent_to(internal_node);
     }
 }
