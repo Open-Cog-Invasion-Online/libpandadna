@@ -11,17 +11,17 @@ def run_command(cmd):
     ret = p.wait()
 
     if ret != 0:
-        print
-        print 'The following command return a non-zero value (%d): %s' % (ret, cmd)
+        print('')
+        print('The following command return a non-zero value (%d): %s' % (ret, cmd))
         sys.exit(ret)
 
 def interrogate(module):
-    print 'Interrogating', module
-    print pandadir
+    print('Interrogating', module)
+    print(pandadir)
     cmd = os.path.join(pandadir, 'bin', 'interrogate')
-    print os.path.exists(cmd)
+    print(os.path.exists(cmd))
     cmd += ' -D__inline -DCPPPARSER -DP3_INTERROGATE=1 -D__cplusplus -fnames -string -refcount -assert'
-    cmd += ' -S %(pandadir)s/include/parser-inc -S %(pandadir)s/include -I %(pandadir)s/include -S..\\..\\rpbmStudios\\panda_cxx_projs\\libpandabsp\\include -I%(srcdir)s/base -I%(srcdir)s/suit -I%(srcdir)s/components'
+    cmd += ' -S %(pandadir)s/include/parser-inc -S %(pandadir)s/include -I %(pandadir)s/include -S%(pandadir)s/../libpandabsp/src/libpandabsp/ -I%(srcdir)s/base -I%(srcdir)s/suit -I%(srcdir)s/components'
     cmd += ' -srcdir %(srcdir)s/%(module)s -oc %(srcdir)s/%(module)s_igate.cxx -od %(srcdir)s/%(module)s.in -python-native -DCPPPARSER -D__STDC__=1'
     cmd += ' -D__cplusplus -D__inline -longlong __int64 -D_X86_ -DWIN32_VC -DWIN32 -module libpandadna -library %(module)s -Dvolatile='
 
@@ -36,6 +36,6 @@ for module in ('base', 'suit', 'components'):
     interrogate(module)
 
 os.chdir(srcdir)
-cmd = os.path.join('..\\' + pandadir, 'bin', 'interrogate_module') + ' -python-native -oc libpandadna_module.cxx'
+cmd = os.path.join(pandadir, 'bin', 'interrogate_module') + ' -python-native -oc libpandadna_module.cxx'
 cmd += ' -library libpandadna -module libpandadna base.in suit.in components.in'
 run_command(cmd)

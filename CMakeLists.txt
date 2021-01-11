@@ -7,10 +7,11 @@ if (DEFINED LINK_ALL_STATIC)
 else()
     set(P3BUILT built_x64)
 endif ()
-SET(PANDA_DIR ..\\cio-panda3d\\${P3BUILT})
-SET(PYTHON2_EXECUTABLE "${PANDA_DIR}\\python\\ppython")
+get_filename_component(PARENT_DIR ../ ABSOLUTE)
+SET(PANDA_DIR ${PARENT_DIR}/opencio-panda3d/${P3BUILT})
+SET(PYTHON2_EXECUTABLE "${PANDA_DIR}\\python\\python")
 SET(BUILD_STATIC_LIB OFF CACHE BOOL "If true, will build a static lib")
-SET(PYTHON_LIBRARY "python27")
+SET(PYTHON_LIBRARY "python39")
 execute_process(COMMAND ${PYTHON2_EXECUTABLE} "${CMAKE_SOURCE_DIR}/src/run_interrogate.py" "${PANDA_DIR}")
 
 ### Define core components ###
@@ -90,10 +91,10 @@ include_directories(src/suit)
 include_directories(src/components)
 include_directories(${PANDA_DIR}/include)
 include_directories(${PANDA_DIR}/python/include)
-include_directories(../../rpbmStudios/panda_cxx_projs/libpandabsp/include)
+include_directories(${PARENT_DIR}/opencio-panda3d/libpandabsp/src/libpandabsp)
 link_directories(${PANDA_DIR}/lib)
 link_directories(${PANDA_DIR}/python/libs)
-link_directories(../../rpbmStudios/panda_cxx_projs/libpandabsp/Release)
+link_directories(${PARENT_DIR}/opencio-panda3d/libpandabsp/build/libpandabsp/RelWithDebInfo)
 
 set(LIBPFX "")
 if(WIN32)
@@ -122,7 +123,6 @@ if (NOT BUILD_STATIC_LIB)
         ${LIBPFX}p3dtool
         ${LIBPFX}p3dtoolconfig
         ${LIBPFX}p3direct
-		${LIBPFX}p3pystub
     )
 
     # Add p3interrogatedb, if it exists
@@ -165,7 +165,7 @@ if (NOT BUILD_STATIC_LIB)
             ${IGATE_FILES}
         )
         SET_TARGET_PROPERTIES(libpandadna PROPERTIES SUFFIX ${OUT_EXT})
-        target_link_libraries(libpandadna ${PANDA_LIBS} ${PYTHON_LIBRARY} bsp.lib)
+        target_link_libraries(libpandadna ${PANDA_LIBS} ${PYTHON_LIBRARY} libpandabsp.lib)
         add_custom_command(TARGET libpandadna
                            PRE_BUILD
                            COMMAND ${PYTHON2_EXECUTABLE} "${CMAKE_SOURCE_DIR}/src/run_interrogate.py" "${PANDA_DIR}"
